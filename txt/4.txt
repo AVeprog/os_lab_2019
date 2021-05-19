@@ -1,0 +1,118 @@
+№1
+
+*** kill - отправляет сигналы процессам в зависимости от их sig и pid
+*** pid - идентификатор (номер) процесса-получателя, а sig - номер сигнала.
+*** SIGKILL - сигнал немедленно прекратить выполнение процесса
+*** Системный вызов wait() приостанавливает выполнение вызвавшего процесса до тех пор, пока не прекратит выполнение один из его потомков.
+*** Опция WNOHANG означает немедленный возврат, если ни один потомок не завершил выполнение.
+*** Функция alarm () указывает системе сгенерировать сигнал SIGALRM (const) через время, заданное аргументом seconds (в секундах).
+*** Функция signal() регистрирует функцию, переданную через параметр-указатель func, в качестве обработчика сигнала, указанного параметром signal. Это означает, что функция, переданная через указатель-параметр func, будет вызвана тогда, когда программа получит сигнал signal.
+
+ make
+
+№2 ???
+
+*** Проце́сс-зо́мби — дочерний процесс в Unix-системе, завершивший своё выполнение, но ещё присутствующий в списке процессов операционной системы, чтобы дать родительскому процессу считать код завершения.
+Зомби процессы Linux не выполняются и убить их нельзя, даже с помощью sigkill, они продолжают висеть в памяти, пока не будет завершён их родительский процесс.
+************************************************************************
+
+> zombie.c
+ make
+gcc -o zombie zombie.c -std=c99
+ ./zombie 
+ps -al
+ ps -al
+F S   UID     PID    PPID  C PRI  NI ADDR SZ WCHAN  TTY          TIME CMD
+1 Z  1000     121       1  0  80   0 -     0 -      pts/0    00:00:00 0
+4 R  1000     132      16  0  80   0 -  6899 -      pts/0    00:00:00 ps
+
+
+№3 ???
+
+ gcc -c process_memory.c 
+ gcc process_memory.o -o p
+ ./p
+Address etext: E7D85B9D 
+Address edata: E7F87018 
+Address end  : E7F87050 
+ID main      is at virtual address: E7D858BA
+ID showit    is at virtual address: E7D85A37
+ID cptr      is at virtual address: E7F87010
+ID buffer1   is at virtual address: E7F87030
+ID i     is at virtual address:  A9B9C34
+A demonstration
+ID buffer2   is at virtual address:  A9B9C10
+Alocated memory at E9622670
+This message is output by the function showit()
+
+********************************************************
+*** Каждый процесс имеет свое собственное виртуальное адресное пространство. ОС Linux хранит адреса виртуальной памяти каждого процесса. Эти адреса доступны процессу и могут быть получены из глобальных переменных exent, edata, end 
+*** Адреса этих символов соответствуют концам различных программных сегментов:
+etext - Первый адрес за концом сегмента текста (кода программы).
+edata - Первый адрес за концом сегмента инициализированных данных.
+end - Первый адрес за концом сегмента неинициализированных данных (сегмента BSS).
+
+№4
+
+см. makefile
+
+№5-6
+
+*** POSIX определяет набор интерфейсов (функций
+заголовочных файлов) для программирования
+потоков. Эти рекомендации носят название POSIX
+threads или Pthreads.
+
+*** pthread_t — идентификатор потока;
+
+*** Создание потока: int pthread_createe( pthread_t *thread, pthread_attr_t *attr, void
+*(*thread_function)(void *), void *arg );
+• thread –указатель на идентификатор созданного потока
+• attr – атрибуты потока
+• third argument – функция, которую поток будет исполнять
+• arg – аргументы функции (обычно структура)
+• returns 0 for success
+
+*** Ожидание завершения потока:
+int pthread_join( pthread_t thread, void **thread_return )
+• Основной поток дожидается завершения потока с
+идентификатором thread
+• Второй аргумент – значение возвращаемое потоком
+• returns 0 for success
+• Следует всегда дожидаться завершения потока
+
+*** Время:
+ 
+#include <sys/time.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
+struct timeval start_time;
+  gettimeofday(&start_time, NULL);
+
+struct timeval finish_time;
+  gettimeofday(&finish_time, NULL);
+
+double elapsed_time = (finish_time.tv_sec - start_time.tv_sec) * 1000.0;
+  elapsed_time += (finish_time.tv_usec - start_time.tv_usec) / 1000.0;
+
+printf("Elapsed time: %fms\n", elapsed_time);
+  fflush(NULL);
+  return 0;
+*******************************************************************
+
+Задание:
+
+make
+gcc -o utils.o -c utils.c -I.
+gcc -I.   -c -o Sum.o Sum.c
+gcc -pthread -o parallel_sum utils.o Sum.o parallel_sum.c -I.
+ ./parallel_sum --threads_num "2" --seed "3" --array_size "4"
+746 985 168 440 
+begin: 2 end: 4
+168 
+440 
+begin: 0 end: 2
+746 
+985 
+Total: 2339

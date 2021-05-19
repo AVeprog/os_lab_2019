@@ -1,0 +1,50 @@
+ЛР№3
+
+№1
+ gcc -c find_min_max.c sequential_min_max.c utils.c
+ gcc utils.o find_min_max.o sequential_min_max.o -o f
+ ./f 12 34 5 63643 6 36262 
+Usage: ./f
+ ./f -5 -6
+seed is a positive number
+ ./f 5 6
+min: 99788765
+max: 2131925610
+ ./f 1 2
+min: 846930886
+max: 1804289383
+ ./f 1223 43523
+min: 4637
+max: 2147471439
+
+№2-3
+
+ gcc -c parallel_min_max.c 
+ gcc utils.o find_min_max.o parallel_min_max.o -o p
+ ./p
+Usage: ./p --seed "num" --array_size "num" --pnum "num" 
+ ./p --seed 3 --array_size 4 --pnum 5
+Min: 2147483647
+Max: -2147483648
+Elapsed time: 1.455000ms
+
+Pipe (конвеер) – это однонаправленный канал межпроцессного взаимодействия. Конвейеры чаще всего используются в shell-скриптах для связи нескольких команд путем перенаправления вывода одной команды (stdout) на вход (stdin) последующей, используя символ конвеера. Данные, записанные в трубу одним процессом, могут быть прочитаны другим процессом.
+При вызове fork() порождается новый процесс (процесс-потомок), который почти идентичен порождающему процессу-родителю. Процесс-потомок наследует некоторые признаки родителя. При вызове fork() возникают два полностью идентичных процесса. Весь код после fork() выполняется дважды, как в процессе-потомке, так и в процессе-родителе.
+Процесс-потомок и процесс-родитель получают разные коды возврата после вызова fork(). Процесс-родитель получает идентификатор (PID) потомка. Если это значение будет отрицательным, следовательно при порождении процесса произошла ошибка. Процесс-потомок получает в качестве кода возврата значение 0, если вызов fork() оказался успешным.
+
+№4
+
+ make
+gcc -o find_min_max.o -c find_min_max.c -I.
+gcc -o sequential_min_max find_min_max.o utils.o sequential_min_max.c -I.
+gcc -o parallel_min_max utils.o find_min_max.o parallel_min_max.c -I.
+gcc -o exec find_min_max.o utils.o sequential_min_max.c -I.
+ ./sequential_min_max 3 5
+min: 483147985
+max: 1205554746
+ ./parallel_min_max --seed 3 --array_size 4 --pnum 5
+Min: 2147483647
+Max: -2147483648
+Elapsed time: 1.100000ms
+
+№5 

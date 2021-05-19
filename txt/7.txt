@@ -1,0 +1,10 @@
+pwd
+/home/runner/oslab2019-2
+ cd lab7/src/
+ > makefile
+ make
+gcc -o tcp_c tcpclient.c -I.
+gcc -o tcp_s tcpserver.c -I.
+gcc -o udp_c udpclient.c -I.
+gcc -o udp_s udpserver.c -I.
+ 

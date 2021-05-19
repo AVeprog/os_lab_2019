@@ -1,0 +1,56 @@
+1 сервер:
+~/oslab2019-2$ pwd
+/home/runner/oslab2019-2
+~/oslab2019-2$ cd lab6/src/
+~/.../lab6/src$ ./server
+Using: ./server --port 20001 --tnum 4
+~/.../lab6/src$ ./server --port 20000 --tnum 4
+Server listening at 20000
+Receive: 6073139484287059271 724289189539958868 3544649817151205192
+server thread begins 15896559818508897680, ends 724289189539958868 - result 1
+
+2 сервер: 
+~/oslab2019-2$ pwd
+/home/runner/oslab2019-2
+~/oslab2019-2$ cd lab6/src/
+~/.../lab6/src$ ./server --port 20002 --tnum 4
+Can not bind to socket!~/.../lab6/src$ ./server --port 20002 --tnum 4
+Server listening at 20002
+Receive: 1 121 4
+server thread begins 91, ends 121 - result 0
+server thread begins 61, ends 90 - result 0
+server thread begins 1, ends 30 - result 0
+server thread begins 31, ends 60 - result 0
+Total: 0
+Receive: 1 121 4000
+server thread begins 91, ends 121 - result 1088
+server thread begins 61, ends 90 - result 1440
+server thread begins 31, ends 60 - result 1280
+server thread begins 1, ends 30 - result 2112
+Total: 3200
+
+3 сервер: 
+~/oslab2019-2$ pwd
+/home/runner/oslab2019-2
+~/oslab2019-2$ cd lab6/src/
+~/.../lab6/src$ ./server --port 20003 --tnum 4
+Server listening at 20003
+
+Клиент: 
+~/oslab2019-2$ pwd
+/home/runner/oslab2019-2
+~/oslab2019-2$ cd lab6/src/
+~/.../lab6/src$ ./client --k 121 --mod 4 --server servers.txt
+ip: 127.0.0.1 / port: 20002
+connecting to : ip 127.0.0.1 , port 20002
+sending task to server: begin 1, end 121, mod 4
+recieved an answer: 0
+
+Result: 0
+~/.../lab6/src$ ./client --k 121 --mod 4000 --server servers.txt
+ip: 127.0.0.1 / port: 20002
+connecting to : ip 127.0.0.1 , port 20002
+sending task to server: begin 1, end 121, mod 4000
+recieved an answer: 3200
+
+Result: 3200
