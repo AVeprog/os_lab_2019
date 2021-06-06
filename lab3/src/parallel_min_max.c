@@ -106,8 +106,6 @@ int main(int argc, char **argv) {
   struct timeval start_time;
   gettimeofday(&start_time, NULL);
 
-// хмммммммммм
-
   struct MinMax min_max;
   min_max.min = INT_MAX;
   min_max.max = INT_MIN;
@@ -135,14 +133,14 @@ int main(int argc, char **argv) {
         if (with_files) {
           // use files here
         FILE* f;
-        f = fopen("min_max.txt", "a");        // fopen
+        f = fopen("min_max.txt", "a");
         if(f == 0)
         {
             printf("Error while opening a file!");
             return 1;
         }
-        fwrite(&min_max, sizeof(struct MinMax), 1, f); //  fwrite
-        fclose(f);  // fclose(f)
+        fwrite(&min_max, sizeof(struct MinMax), 1, f);
+        fclose(f);
         } else {
           // use pipe here
           write(fd[1], &min_max, sizeof(struct MinMax));
@@ -166,7 +164,6 @@ int main(int argc, char **argv) {
   min_max.min = INT_MAX;
   min_max.max = INT_MIN;
   
-// хмммммммммм
 
   for (int i = 0; i < pnum; i++) {
     struct MinMax min_max2;
@@ -176,15 +173,15 @@ int main(int argc, char **argv) {
     if (with_files) {
       // read from files
       FILE* f;
-      f=fopen("min_max.txt","rb"); // fopen
+      f=fopen("min_max.txt","rb");
       if(f == 0)
       {
           printf("Error while opening a file!");
           return 1;
       }
-      fseek(f, i*sizeof(struct MinMax), SEEK_SET); // fseek
-      fread(&min_max2, sizeof(struct MinMax), 1, f); // fread
-      fclose(f); // fclose
+      fseek(f, i*sizeof(struct MinMax), SEEK_SET);
+      fread(&min_max2, sizeof(struct MinMax), 1, f);
+      fclose(f);
     } else {
       // read from pipes
       read(fd[0], &min_max2, sizeof(struct MinMax));

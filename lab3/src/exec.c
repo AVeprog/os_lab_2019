@@ -1,28 +1,9 @@
-#include <ctype.h>
-#include <limits.h>
-#include <stdbool.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
 
-#include <sys/time.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-
-#include <getopt.h>
-
-int main()
+int main(int argc, char *argv[])
 {
-    pid_t child_pid = fork();
-    if(child_pid == 0)
-    {
-        printf("Child process\n");
-        return 0;
-    }
-    else
-    {
-        execl("sequential_min_max", "", "1", "10", NULL);
-    }
-    return 0;
+printf("Program %s will be executedn\n\n", argv[0]);
+execv("sequential_min_max", argv);
+return 0;
 }
